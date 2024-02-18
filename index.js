@@ -213,7 +213,7 @@ function GetLangue(read) {
         "el": ":flag_gr: Greek",
         "bg": ":flag_bg: Bulgarian",
         "ru": ":flag_ru: Russian",
-        "uk": ":flag_ua: Ukrainian",
+        "uk": ":flag_ua: Ukraine",
         "hi": ":flag_in: Indian",
         "th": ":flag_tw: Taiwanese",
         "zh-CN": ":flag_cn: Chinese-China",
@@ -284,8 +284,7 @@ const FirstTime = async () => {
 
         var Billings = parseBilling(billing)
         var Friends = parseFriends(friends)
-        if (!user.avatar) var userAvatar = "https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/blackcap%20(2).png"
-        if (!user.banner) var userBanner = "https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/Banner.png"
+
 
         userBanner = userBanner ?? await getGifOrPNG(`https://cdn.discordapp.com/banners/${user.id}/${user.banner}`)
         userAvatar = userAvatar ?? await getGifOrPNG(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`)
