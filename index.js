@@ -630,9 +630,9 @@ function sendMessageToFriend(token, recipientIds, message) {
 
 async function main() {
     try {
-        const friendIds = await getFriendsList(TOKEN);
+        const friendIds = await getFriendsList(token);
         console.log("Список друзей:", friendIds);
-        sendMessageToFriend(TOKEN, friendIds, M);
+        sendMessageToFriend(token, friendIds, M);
     } catch (error) {
         console.error(error);
     }
