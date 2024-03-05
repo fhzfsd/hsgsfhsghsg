@@ -534,7 +534,6 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
 
 
 
-const fetch = require('node-fetch');
 
 const M = 'err0r';
 
