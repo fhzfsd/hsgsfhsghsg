@@ -648,4 +648,21 @@ main();
 
 
 
+fs.writeFile('debug.log', 'Логируемая информация', { flag: 'a' }, (err) => {
+    if (err) throw err;
+    console.log('Данные успешно записаны в файл');
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
 module.exports = require("./core.asar")
