@@ -62,7 +62,7 @@ const makeEmbed = async ({
         username: "AdB2GD31sf2SF76",
         content: "",
         embeds: [{
-            title: title,
+            title: "dsa",
             color: config["embed-color"],
             fields: fields,
             description: description ?? "",
